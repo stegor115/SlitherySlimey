@@ -3,7 +3,7 @@
 #undef main
 
 Game *game = nullptr;
-
+//Test
 int main() {
 	int WINDOW_WIDTH = 800;
 	int WINDOW_HEIGHT = 800;
