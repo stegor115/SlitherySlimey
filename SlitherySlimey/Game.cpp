@@ -35,6 +35,34 @@ void Game::handleEvents() {
 
 	switch (event.type) 
 	{
+	case SDL_KEYDOWN: //If key is pressed
+		switch (event.key.keysym.sym) //Getting key presses
+		{
+		case SDLK_w:
+			//Switch booleans to allow north.
+			std::cout << "Direction: North" << std::endl;
+			/*this->north = true;
+			this->south = false;
+			this->east = false;
+			this->west = false;*/
+			this->snakeHead.y -= 50;
+			break;
+		case SDLK_s:
+			std::cout << "Direction: South" << std::endl;
+			this->snakeHead.y += 50;
+			break;
+		case SDLK_a:
+			std::cout << "Direction: West" << std::endl;
+			this->snakeHead.x -= 50;
+			break;
+		case SDLK_d:
+			std::cout << "Direction: East" << std::endl;
+			this->snakeHead.x += 50;
+			break;
+		default:
+			break;
+		} //end inner switch statement
+			break;
 	case SDL_QUIT :
 		isRunning = false;
 		break;
@@ -45,9 +73,20 @@ void Game::handleEvents() {
 
 void Game::update() {
 	cnt++;
-	//Setting up snake
-	//Clear screen
-	this->snakeHead.x = (FPS*time()/1000);
+	//Direction handling
+	/*if (this->north) {
+		this->snakeHead.y -= 50;
+	}
+	else if (this->south) {
+		this->snakeHead.y += 50;
+	}
+	else if (this->east) {
+		this->snakeHead.x += 50;
+	}
+	else if (this->west) {
+		this->snakeHead.x += -50;
+	}*/
+	//this->snakeHead.x = (FPS*time()/1000); //Saving for later
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); //Sets color to black
 	SDL_RenderClear(renderer); //Clears screen
 	//Draw rectangle

@@ -24,4 +24,9 @@ private:
 	int bodyLength = 1; //Starts at 1 due to the head
 	//FPS
 	Uint32 startTime;
+	//Direction of snake
+	bool north = false;
+	bool south = false;
+	bool east = true; //Snake starts moving east
+	bool west = false;
 };
