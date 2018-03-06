@@ -13,7 +13,7 @@ int main() {
 	while (game->running()) {
 		game->handleEvents();
 		game->update();
-		game->render();
+		//game->render();
 	} //end while
 
 	game->clean();
