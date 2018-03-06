@@ -19,6 +19,8 @@ private:
 	int cnt = 0;
 	SDL_Window *window;
 	SDL_Renderer *renderer;
+	int windowWidth;
+	int windowHeight;
 	//Snake related 
 	SDL_Rect snakeHead;
 	int bodyLength = 1; //Starts at 1 due to the head
