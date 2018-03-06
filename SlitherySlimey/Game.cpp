@@ -1,7 +1,7 @@
 #include "Game.h"
-#define SNAKE_SIZE 20;
 //Global variables
 int FPS = 60;
+int SNAKE_SIZE = 20;
 int velocity = 25;
 Game::Game() {
 }
@@ -87,19 +87,19 @@ void Game::handleEvents() {
 }
 
 void Game::update() {
-	cnt++;
+	//cnt++;
 	//Direction handling
 	if (time() > 250) { //move every 1/4th of a second
-		if (this->north) {
+		if (this->north && this->snakeHead.y - velocity >= 0) {
 			this->snakeHead.y -= velocity;
 		}
-		else if (this->south) {
+		else if (this->south && this->snakeHead.y + velocity <= this->windowHeight-SNAKE_SIZE) {
 			this->snakeHead.y += velocity;
 		}
-		else if (this->east) {
+		else if (this->east && this->snakeHead.x + velocity <= this->windowWidth-SNAKE_SIZE) {
 			this->snakeHead.x += velocity;
 		}
-		else if (this->west) {
+		else if (this->west && this->snakeHead.x - velocity >= 0) {
 			this->snakeHead.x -= velocity;
 		}
 		//this->snakeHead.x = (FPS*time()/1000); //Saving for later
