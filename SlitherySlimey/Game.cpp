@@ -87,7 +87,6 @@ void Game::handleEvents() {
 }
 
 void Game::update() {
-	//cnt++;
 	//Direction handling
 	if (time() > 250) { //move every 1/4th of a second
 		if (this->north && this->snakeHead.y - velocity >= 0) {
@@ -102,7 +101,9 @@ void Game::update() {
 		else if (this->west && this->snakeHead.x - velocity >= 0) {
 			this->snakeHead.x -= velocity;
 		}
-		//this->snakeHead.x = (FPS*time()/1000); //Saving for later
+		else {
+			std::cout << "Game Over" << std::endl;
+		}
 		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); //Sets color to black
 		SDL_RenderClear(renderer); //Clears screen
 		//Draw rectangle
