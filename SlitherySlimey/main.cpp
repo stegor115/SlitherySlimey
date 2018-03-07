@@ -5,6 +5,7 @@
 Game *game = nullptr;
 //Test
 int main() {
+	srand(time(NULL));
 	int WINDOW_WIDTH = 600;
 	int WINDOW_HEIGHT = 600;
 	game = new Game();

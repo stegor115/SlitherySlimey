@@ -1,7 +1,7 @@
 #include "Game.h"
 //Global variables
 int FPS = 60;
-int SNAKE_SIZE = 20;
+int SNAKE_SIZE = 25;
 int velocity = 25;
 Game::Game() {
 }
@@ -26,6 +26,10 @@ void Game::init(const char* title, int width, int height) {
 			this->snakeHead.w = SNAKE_SIZE;
 			this->snakeHead.h = SNAKE_SIZE;
 			this->startTime = SDL_GetTicks();
+			//Set up of food
+			spawnFood();
+			this->food.w = SNAKE_SIZE;
+			this->food.h = SNAKE_SIZE;
 		} //end if
 
 		isRunning = true;
@@ -88,7 +92,7 @@ void Game::handleEvents() {
 
 void Game::update() {
 	//Direction handling
-	if (time() > 250) { //move every 1/4th of a second
+	if (timer() > 200) { //Handles how fast snake can move per frame
 		if (this->north && this->snakeHead.y - velocity >= 0) {
 			this->snakeHead.y -= velocity;
 		}
@@ -104,9 +108,16 @@ void Game::update() {
 		else {
 			std::cout << "Game Over" << std::endl;
 		}
+		//Debugging
+		std::cout << "headX = " << this->snakeHead.x << " headY = " << this->snakeHead.y << std::endl;
+		//Check to see if food was eaten
 		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); //Sets color to black
 		SDL_RenderClear(renderer); //Clears screen
-		//Draw rectangle
+		//Renders food
+		SDL_SetRenderDrawColor(renderer, 255, 0, 0, 0); //Sets color to red
+		SDL_RenderFillRect(renderer, &this->food); //Sets up rectangle to render
+		SDL_RenderPresent(renderer); //Renders
+		//Draw snake rectangle
 		SDL_SetRenderDrawColor(renderer, 0, 100, 0, 0); //Sets color to green
 		SDL_RenderFillRect(renderer, &this->snakeHead); //Sets up rectangle to render
 		SDL_RenderPresent(renderer); //Renders
@@ -114,9 +125,28 @@ void Game::update() {
 	}//end time if
 }
 
-void Game::render() {
-	SDL_RenderClear(renderer);
-	SDL_RenderPresent(renderer);
+bool Game::eat() {
+	//TODO: Finish this event
+	return false;
+}
+
+void Game::spawnFood() {
+	std::cout << "Spawning food: ";
+	int tempRand = -1;
+	//Set X
+	while (tempRand == -1 ||  tempRand >= this->windowWidth - SNAKE_SIZE || tempRand % SNAKE_SIZE != 0) { //0 does not need to be checked since rand() will return 0->width 
+		tempRand = rand() % this->windowWidth;
+	}
+	std::cout << " New FoodPosX = " << tempRand;
+	this->food.x = tempRand;
+
+	//Set Y
+	tempRand = -1;
+	while (tempRand ==0 -1 || tempRand >= this->windowHeight - SNAKE_SIZE || tempRand % SNAKE_SIZE != 0){ //0 does not need to be checked for same reason as above 
+		tempRand = rand() % this->windowHeight;
+	}
+	std::cout << " New FoodPosY = " << tempRand << std::endl;
+	this->food.y = tempRand;
 }
 
 void Game::clean() {
@@ -125,6 +155,6 @@ void Game::clean() {
 	SDL_Quit();
 }
 
-Uint32 Game::time() {
+Uint32 Game::timer() {
 	return SDL_GetTicks() - this->startTime;
 }
