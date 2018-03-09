@@ -14,7 +14,6 @@ int main() {
 	while (game->running()) {
 		game->handleEvents();
 		game->update();
-		//game->render();
 	} //end while
 
 	game->clean();

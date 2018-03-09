@@ -18,6 +18,8 @@ public:
 	//Food
 	bool eat();
 	void spawnFood();
+	//Snake
+	bool death();
 
 private:
 	bool isRunning = false;
@@ -28,7 +30,8 @@ private:
 	int windowHeight;
 	//Snake related ------------------
 	SDL_Rect snakeHead;
-	int bodyLength = 1; //Starts at 1 due to the head
+	int tailLength = 1; //Starts at 1 due to head
+	SDL_Rect snakeTail[400]; //Most possible rectangles in window
 	//FPS
 	Uint32 startTime;
 	//Direction of snake

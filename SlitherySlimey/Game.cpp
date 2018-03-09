@@ -92,7 +92,16 @@ void Game::handleEvents() {
 
 void Game::update() {
 	//Direction handling
-	if (timer() > 200) { //Handles how fast snake can move per frame
+	if (timer() > 150) { //Handles how fast snake can move per frame
+		//Get tail information before shift!
+		for (int i = 0; i < this->tailLength; ++i) {
+			this->snakeTail[i] = this->snakeTail[i + 1];
+		}
+		this->snakeTail[tailLength - 1].x = this->snakeHead.x;
+		this->snakeTail[tailLength - 1].y = this->snakeHead.y;
+		this->snakeTail[tailLength - 1].w = this->snakeHead.w;
+		this->snakeTail[tailLength - 1].h = this->snakeHead.h;
+		//Move head
 		if (this->north && this->snakeHead.y - velocity >= 0) {
 			this->snakeHead.y -= velocity;
 		}
@@ -109,8 +118,12 @@ void Game::update() {
 			std::cout << "Game Over" << std::endl;
 		}
 		//Debugging
-		std::cout << "headX = " << this->snakeHead.x << " headY = " << this->snakeHead.y << std::endl;
+		//std::cout << "headX = " << this->snakeHead.x << " headY = " << this->snakeHead.y << std::endl;
 		//Check to see if food was eaten
+		if (eat()) {
+			spawnFood();
+		} //end if
+		//Clear Screen
 		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); //Sets color to black
 		SDL_RenderClear(renderer); //Clears screen
 		//Renders food
@@ -121,13 +134,25 @@ void Game::update() {
 		SDL_SetRenderDrawColor(renderer, 0, 100, 0, 0); //Sets color to green
 		SDL_RenderFillRect(renderer, &this->snakeHead); //Sets up rectangle to render
 		SDL_RenderPresent(renderer); //Renders
+		//Draw snake tail
+		for (int i = 0; i < tailLength; ++i) {
+			//std::cout << "tailX = " << this->snakeTail[i].x << " tailY = " << this->snakeTail[i].y << std::endl;
+			SDL_SetRenderDrawColor(renderer, 0, 100, 0, 0); //Sets color to green
+			SDL_RenderFillRect(renderer, &this->snakeTail[i]); //Sets up rectangle to render
+			SDL_RenderPresent(renderer); //Renders
+		}
 		this->startTime = SDL_GetTicks();
 	}//end time if
 }
 
 bool Game::eat() {
-	//TODO: Finish this event
-	return false;
+	if (this->snakeHead.x == this->food.x && this->snakeHead.y == this->food.y) {
+		this->tailLength++;
+		return true;
+	}
+	else {
+		return false;
+	}
 }
 
 void Game::spawnFood() {
