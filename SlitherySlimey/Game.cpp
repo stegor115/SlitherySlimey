@@ -3,6 +3,24 @@
 int FPS = 60;
 int SNAKE_SIZE = 25;
 int velocity = 25;
+
+/*
+---------------------------------------TO-DO---------------------------------------
+Main Menu
+	Difficulty settings (Speed of snake)
+Game Over Handling
+	Main Menu retreival
+	Play Again
+Winning Condition (Completely full snake)
+	I have no idea because I can't even do this lol.
+*/
+
+/*
+---------------------------------------KNOWN BUGS---------------------------------------
+Possible to turn snake back onto itself if quickly changing to an acceptable direction then to the unacceptable direction before the tick.
+Food can spawn where the snake already is.
+*/
+
 Game::Game() {
 }
 
@@ -47,35 +65,55 @@ void Game::handleEvents() {
 			case SDLK_w:
 			case SDLK_UP:
 				//Switch booleans to allow north.
-				std::cout << "Direction: North" << std::endl;
-				this->north = true;
-				this->south = false;
-				this->east = false;
-				this->west = false;
+				if (!this->south || tailLength == 0) { //Prevent player from killing self
+					std::cout << "Direction: North" << std::endl;
+					this->north = true;
+					this->south = false;
+					this->east = false;
+					this->west = false;
+				} //end if
+				else {
+					std::cout << "Prevented backward movement!" << std::endl;
+				}
 				break;
 			case SDLK_s:
 			case SDLK_DOWN:
-				std::cout << "Direction: South" << std::endl;
-				this->north = false;
-				this->south = true;
-				this->east = false;
-				this->west = false;
+				if (!this->north || tailLength == 0) { //Prevent player from killing self
+					std::cout << "Direction: South" << std::endl;
+					this->north = false;
+					this->south = true;
+					this->east = false;
+					this->west = false;
+				} //end if
+				else {
+					std::cout << "Prevented backward movement!" << std::endl;
+				}
 				break;
 			case SDLK_a:
 			case SDLK_LEFT:
-				std::cout << "Direction: West" << std::endl;
-				this->north = false;
-				this->south = false;
-				this->east = false;
-				this->west = true;
+				if (!this->east || tailLength == 0) { //Prevent player from killing self
+					std::cout << "Direction: West" << std::endl;
+					this->north = false;
+					this->south = false;
+					this->east = false;
+					this->west = true;
+				} //end if
+				else {
+					std::cout << "Prevented backward movement!" << std::endl;
+				}
 				break;
 			case SDLK_d:
 			case SDLK_RIGHT:
-				std::cout << "Direction: East" << std::endl;
-				this->north = false;
-				this->south = false;
-				this->east = true;
-				this->west = false;
+				if (!this->west || tailLength == 0) { //Prevent player from killing self
+					std::cout << "Direction: East" << std::endl;
+					this->north = false;
+					this->south = false;
+					this->east = true;
+					this->west = false;
+				} //end if
+				else {
+					std::cout << "Prevented backward movement!" << std::endl;
+				}
 				break;
 			default:
 				break;
@@ -116,11 +154,12 @@ void Game::update() {
 		else if (this->west && this->snakeHead.x - velocity >= 0) {
 			this->snakeHead.x -= velocity;
 		}
-		else {
-			std::cout << "Game Over" << std::endl;
-		}
 		//Debugging
 		//std::cout << "headX = " << this->snakeHead.x << " headY = " << this->snakeHead.y << std::endl;
+		//Checks if snake collided into tail
+		if (death()) {
+			gameOver();
+		}
 		//Check to see if food was eaten
 		if (eat()) {
 			spawnFood();
@@ -155,6 +194,23 @@ bool Game::eat() {
 	else {
 		return false;
 	}
+}
+
+bool Game::death() {
+	for (int i = 0; i < tailLength; ++i) {
+		if (snakeHead.x == snakeTail[i].x) {
+			if (snakeHead.y == snakeTail[i].y) {
+				std::cout << "DEAD. Snake collided with tail." << std::endl;
+				velocity = 0; //Temporary game over condtion for now
+				return true; //Collision detected
+			} //end y if
+		}//end x if
+	} //end for
+	return false; //If no collision
+}
+
+void Game::gameOver() {
+
 }
 
 void Game::spawnFood() {

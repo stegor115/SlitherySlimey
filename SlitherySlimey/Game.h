@@ -19,8 +19,8 @@ public:
 	bool eat();
 	void spawnFood();
 	//Snake
-	bool death();
-
+	bool death(); //Checks if snake collides into self
+	void gameOver();
 private:
 	bool isRunning = false;
 	int cnt = 0;
