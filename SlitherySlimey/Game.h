@@ -30,7 +30,7 @@ private:
 	int windowHeight;
 	//Snake related ------------------
 	SDL_Rect snakeHead;
-	int tailLength = 1; //Starts at 1 due to head
+	int tailLength = 0; //Starts at 1 due to head
 	SDL_Rect snakeTail[400]; //Most possible rectangles in window
 	//FPS
 	Uint32 startTime;

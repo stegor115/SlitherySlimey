@@ -97,10 +97,12 @@ void Game::update() {
 		for (int i = 0; i < this->tailLength; ++i) {
 			this->snakeTail[i] = this->snakeTail[i + 1];
 		}
-		this->snakeTail[tailLength - 1].x = this->snakeHead.x;
-		this->snakeTail[tailLength - 1].y = this->snakeHead.y;
-		this->snakeTail[tailLength - 1].w = this->snakeHead.w;
-		this->snakeTail[tailLength - 1].h = this->snakeHead.h;
+		if (tailLength != 0) {
+			this->snakeTail[tailLength - 1].x = this->snakeHead.x;
+			this->snakeTail[tailLength - 1].y = this->snakeHead.y;
+			this->snakeTail[tailLength - 1].w = this->snakeHead.w;
+			this->snakeTail[tailLength - 1].h = this->snakeHead.h;
+		}
 		//Move head
 		if (this->north && this->snakeHead.y - velocity >= 0) {
 			this->snakeHead.y -= velocity;
