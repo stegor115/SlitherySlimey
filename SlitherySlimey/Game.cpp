@@ -18,6 +18,7 @@ Winning Condition (Completely full snake)
 /*
 ---------------------------------------KNOWN BUGS---------------------------------------
 Possible to turn snake back onto itself if quickly changing to an acceptable direction then to the unacceptable direction before the tick.
+Not possible to die if food not eaten yet
 Food can spawn where the snake already is.
 */
 
@@ -35,24 +36,44 @@ void Game::init(const char* title, int width, int height) {
 		this->windowWidth = width;
 		this->windowHeight = height;
 		if (renderer) {
-			SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-			SDL_RenderClear(renderer);
-			SDL_RenderPresent(renderer);
-			//Set up of snake
-			this->snakeHead.x = width / 2;
-			this->snakeHead.y = height / 2;
-			this->snakeHead.w = SNAKE_SIZE;
-			this->snakeHead.h = SNAKE_SIZE;
-			this->startTime = SDL_GetTicks();
-			//Set up of food
-			spawnFood();
-			this->food.w = SNAKE_SIZE;
-			this->food.h = SNAKE_SIZE;
+			initMenu();
 		} //end if
 
 		isRunning = true;
 	} //end if
 } //end Init
+
+void Game::initMenu() {
+	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+	SDL_RenderClear(renderer);
+	SDL_RenderPresent(renderer);
+}
+
+void Game::updateMenu() {
+	if (this->onMenu) {
+
+	}
+	else {
+		startGame();
+	}
+}
+
+void Game::handleMenu() { //Useful for mouseover effects
+	this->onMenu = false; //Add conditionals for this
+}
+
+void Game::startGame() {
+	//Set up of snake
+	this->snakeHead.x = this->windowWidth / 2;
+	this->snakeHead.y = this->windowHeight / 2;
+	this->snakeHead.w = SNAKE_SIZE;
+	this->snakeHead.h = SNAKE_SIZE;
+	this->startTime = SDL_GetTicks();
+	//Set up of food
+	spawnFood();
+	this->food.w = SNAKE_SIZE;
+	this->food.h = SNAKE_SIZE;
+}
 
 void Game::handleEvents() {
 	SDL_Event event;

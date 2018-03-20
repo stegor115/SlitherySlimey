@@ -12,8 +12,14 @@ int main() {
 	game->init("Slithery Slimey", WINDOW_WIDTH, WINDOW_HEIGHT);
 
 	while (game->running()) {
-		game->handleEvents();
-		game->update();
+		if (game->atMenu()) {
+			game->handleMenu();
+			game->updateMenu();
+		}
+		else {
+			game->handleEvents();
+			game->update();
+		}
 	} //end while
 
 	game->clean();
