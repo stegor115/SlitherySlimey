@@ -47,11 +47,19 @@ void Game::initMenu() {
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	SDL_RenderClear(renderer);
 	SDL_RenderPresent(renderer);
+	this->startButton.x = 200; //Testing value
+	this->startButton.y = 200; //Testing value
+	this->startButton.w = 200; //Testing value
+	this->startButton.h = 100; //Testing value
+	this->startTime = SDL_GetTicks();
 }
 
 void Game::updateMenu() {
 	if (this->onMenu) {
-
+		//Draw start button
+		SDL_SetRenderDrawColor(renderer, 0, 0, 255, 0); //Sets color to blue
+		SDL_RenderFillRect(renderer, &this->startButton); //Sets up rectangle to render
+		SDL_RenderPresent(renderer); //Renders
 	}
 	else {
 		startGame();
@@ -59,7 +67,19 @@ void Game::updateMenu() {
 }
 
 void Game::handleMenu() { //Useful for mouseover effects
-	this->onMenu = false; //Add conditionals for this
+	SDL_Event event;
+	SDL_PollEvent(&event);
+	switch (event.type) {
+	case SDL_MOUSEBUTTONDOWN:
+		if (event.button.button == SDL_BUTTON_LEFT) { //Left mouse button
+
+		}
+		break;
+	case SDL_QUIT:
+		isRunning = false;
+		break;
+	}
+	//this->onMenu = false; //Add conditionals for this
 }
 
 void Game::startGame() {
