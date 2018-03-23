@@ -3,6 +3,8 @@
 int FPS = 60;
 int SNAKE_SIZE = 25;
 int velocity = 25;
+int menuButtonWidth = 200;
+int menuButtonHeight = 100;
 
 /*
 ---------------------------------------TO-DO---------------------------------------
@@ -47,10 +49,17 @@ void Game::initMenu() {
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	SDL_RenderClear(renderer);
 	SDL_RenderPresent(renderer);
-	this->startButton.x = 200; //Testing value
-	this->startButton.y = 200; //Testing value
-	this->startButton.w = 200; //Testing value
-	this->startButton.h = 100; //Testing value
+	//Start button
+	this->startButton.x = 200;
+	this->startButton.y = 200;
+	this->startButton.w = menuButtonWidth;
+	this->startButton.h = menuButtonHeight;
+
+	this->quitButton.x = 200;
+	this->quitButton.y = 400;
+	this->quitButton.w = menuButtonWidth;
+	this->quitButton.h = menuButtonHeight;
+
 	this->startTime = SDL_GetTicks();
 }
 
@@ -59,6 +68,10 @@ void Game::updateMenu() {
 		//Draw start button
 		SDL_SetRenderDrawColor(renderer, 0, 0, 255, 0); //Sets color to blue
 		SDL_RenderFillRect(renderer, &this->startButton); //Sets up rectangle to render
+		SDL_RenderPresent(renderer); //Renders
+		//Draw quit button
+		SDL_SetRenderDrawColor(renderer, 255, 0, 0, 0); //Sets color to red
+		SDL_RenderFillRect(renderer, &this->quitButton); //Sets up rectangle to render
 		SDL_RenderPresent(renderer); //Renders
 	}
 	else {
@@ -75,13 +88,20 @@ void Game::handleMenu() { //Useful for mouseover effects
 	case SDL_MOUSEBUTTONDOWN:
 		if (event.button.button == SDL_BUTTON_LEFT) { //Left mouse button
 			SDL_GetMouseState(&mouseX, &mouseY);
-			if (mouseX >= this->startButton.x && mouseX <= startButton.x + 200) {
-				if (mouseY >= this->startButton.y && mouseY <= startButton.y + 100) {
+			//Start button check
+			if (mouseX >= this->startButton.x && mouseX <= startButton.x + menuButtonWidth) { //Handles X position of Mouse
+				if (mouseY >= this->startButton.y && mouseY <= startButton.y + menuButtonHeight) { //Handles Y position of Mouse
 					std::cout << "Starting Game" << std::endl;
 					this->onMenu = false;
-				}
-			}
-		}
+				} //end Y pos if
+			} //end X pos if
+			//Quit button check
+			if (mouseX >= this->quitButton.x && mouseX <= quitButton.x + menuButtonWidth) { //Handles X position of Mouse
+				if (mouseY >= this->quitButton.y && mouseY <= quitButton.y + menuButtonHeight) { //Handles Y position of Mouse
+					isRunning = false;
+				}//end Y pos if
+			}//end X pos if
+		} //end left mouse button if
 		break;
 	case SDL_QUIT:
 		isRunning = false;
