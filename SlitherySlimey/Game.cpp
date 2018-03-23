@@ -69,10 +69,18 @@ void Game::updateMenu() {
 void Game::handleMenu() { //Useful for mouseover effects
 	SDL_Event event;
 	SDL_PollEvent(&event);
+	int mouseX = 0;
+	int mouseY = 0;
 	switch (event.type) {
 	case SDL_MOUSEBUTTONDOWN:
 		if (event.button.button == SDL_BUTTON_LEFT) { //Left mouse button
-
+			SDL_GetMouseState(&mouseX, &mouseY);
+			if (mouseX >= this->startButton.x && mouseX <= startButton.x + 200) {
+				if (mouseY >= this->startButton.y && mouseY <= startButton.y + 100) {
+					std::cout << "Starting Game" << std::endl;
+					this->onMenu = false;
+				}
+			}
 		}
 		break;
 	case SDL_QUIT:
