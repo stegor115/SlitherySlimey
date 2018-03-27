@@ -112,6 +112,7 @@ void Game::handleMenu() { //Useful for mouseover effects
 
 void Game::startGame() {
 	//Set up of snake
+	velocity = 25;
 	this->snakeHead.x = this->windowWidth / 2;
 	this->snakeHead.y = this->windowHeight / 2;
 	this->snakeHead.w = SNAKE_SIZE;
@@ -279,7 +280,9 @@ bool Game::death() {
 }
 
 void Game::gameOver() {
-
+	this->onMenu = true;
+	this->tailLength = 0; //Needs to properly be handled
+	initMenu();
 }
 
 void Game::spawnFood() {
