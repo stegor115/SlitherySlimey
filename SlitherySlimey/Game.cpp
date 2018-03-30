@@ -10,9 +10,10 @@ int menuButtonHeight = 100;
 ---------------------------------------TO-DO---------------------------------------
 Main Menu
 	Difficulty settings (Speed of snake)
-Game Over Handling
-	Main Menu retreival
-	Play Again
+Text
+	Add labels to start and exit buttons
+	Add game title
+	Add game over
 Winning Condition (Completely full snake)
 	I have no idea because I can't even do this lol.
 */
