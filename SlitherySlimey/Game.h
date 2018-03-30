@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include "SDL.h"
+#include "SDL_ttf.h"
 
 class Game {
 public:
@@ -39,6 +40,7 @@ private:
 	//Menu related ------------------
 	SDL_Rect startButton;
 	SDL_Rect quitButton;
+	SDL_Rect MessageBox;
 	//Snake related ------------------
 	SDL_Rect snakeHead;
 	int tailLength = 0; //Starts at 1 due to head

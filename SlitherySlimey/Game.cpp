@@ -54,11 +54,14 @@ void Game::initMenu() {
 	this->startButton.y = 200;
 	this->startButton.w = menuButtonWidth;
 	this->startButton.h = menuButtonHeight;
-
+	//Quit button
 	this->quitButton.x = 200;
 	this->quitButton.y = 400;
 	this->quitButton.w = menuButtonWidth;
 	this->quitButton.h = menuButtonHeight;
+	//Message
+	this->MessageBox.x = 200;
+	this->MessageBox.y = 0;
 
 	this->startTime = SDL_GetTicks();
 }
@@ -281,24 +284,51 @@ bool Game::death() {
 
 void Game::gameOver() {
 	this->onMenu = true;
+	for (int i = 0; i < this->tailLength; ++i) {
+		//Throw the values off screen
+		this->snakeTail[i].x = -100;
+		this->snakeTail[i].h = -100;
+	}
 	this->tailLength = 0; //Needs to properly be handled
+	//Throw values off screen
+	this->snakeHead.x = -125;
+	this->snakeHead.h = -125;
+	this->food.x = -150;
+	this->food.y = -150;
 	initMenu();
 }
 
 void Game::spawnFood() {
 	std::cout << "Spawning food: ";
 	int tempRand = -1;
+	bool occupied = false;
 	//Set X
-	while (tempRand == -1 ||  tempRand >= this->windowWidth - SNAKE_SIZE || tempRand % SNAKE_SIZE != 0) { //0 does not need to be checked since rand() will return 0->width 
+	while (tempRand == -1 || tempRand >= this->windowWidth - SNAKE_SIZE || tempRand % SNAKE_SIZE != 0 || occupied == true) { //0 does not need to be checked since rand() will return 0->width 
 		tempRand = rand() % this->windowWidth;
-	}
+		for (int i = 0; i < this->tailLength; ++i) {
+			if (tempRand == this->snakeTail[i].x) {
+				occupied = true;
+			} //end if
+			else {
+				occupied = false;
+			} //end if
+		} //end for
+	} //end while
 	std::cout << " New FoodPosX = " << tempRand;
 	this->food.x = tempRand;
 
 	//Set Y
 	tempRand = -1;
-	while (tempRand ==0 -1 || tempRand >= this->windowHeight - SNAKE_SIZE || tempRand % SNAKE_SIZE != 0){ //0 does not need to be checked for same reason as above 
+	while (tempRand ==0 -1 || tempRand >= this->windowHeight - SNAKE_SIZE || tempRand % SNAKE_SIZE != 0 || occupied == true){ //0 does not need to be checked for same reason as above 
 		tempRand = rand() % this->windowHeight;
+		for (int i = 0; i < this->tailLength; ++i) {
+			if (tempRand == this->snakeTail[i].y) {
+				occupied = true;
+			} //end if
+			else {
+				occupied = false;
+			} //end if
+		} //end for
 	}
 	std::cout << " New FoodPosY = " << tempRand << std::endl;
 	this->food.y = tempRand;
