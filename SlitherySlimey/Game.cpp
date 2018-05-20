@@ -248,14 +248,15 @@ void Game::update() {
 		//Draw snake rectangle
 		SDL_SetRenderDrawColor(renderer, 0, 100, 0, 0); //Sets color to green
 		SDL_RenderFillRect(renderer, &this->snakeHead); //Sets up rectangle to render
-		SDL_RenderPresent(renderer); //Renders
+		//SDL_RenderPresent(renderer); //Renders
 		//Draw snake tail
 		for (int i = 0; i < tailLength; ++i) {
 			//std::cout << "tailX = " << this->snakeTail[i].x << " tailY = " << this->snakeTail[i].y << std::endl;
 			SDL_SetRenderDrawColor(renderer, 0, 100, 0, 0); //Sets color to green
 			SDL_RenderFillRect(renderer, &this->snakeTail[i]); //Sets up rectangle to render
-			SDL_RenderPresent(renderer); //Renders
+			//SDL_RenderPresent(renderer); //Renders
 		}
+		SDL_RenderPresent(renderer); //Renders
 		this->startTime = SDL_GetTicks();
 	}//end time if
 }
